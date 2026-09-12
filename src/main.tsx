@@ -1,0 +1,2 @@
+import React from "react"; import ReactDOM from "react-dom/client"; import App from "./App"; import {AuthProvider} from "./contexts/AuthContext"; import {WalletProvider} from "./contexts/WalletContext"; import {NotificationProvider} from "./contexts/NotificationContext"; import "./index.css";
+ReactDOM.createRoot(document.getElementById("root")!).render(<React.StrictMode><NotificationProvider><AuthProvider><WalletProvider><App/></WalletProvider></AuthProvider></NotificationProvider></React.StrictMode>);
