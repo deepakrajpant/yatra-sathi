@@ -1,0 +1,4 @@
+{"indexes":[
+  {"collectionGroup":"rides","queryScope":"COLLECTION","fields":[{"fieldPath":"from","order":"ASCENDING"},{"fieldPath":"to","order":"ASCENDING"},{"fieldPath":"date","order":"ASCENDING"}]},
+  {"collectionGroup":"bookings","queryScope":"COLLECTION","fields":[{"fieldPath":"passengerId","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]}
+],"fieldOverrides":[]}
