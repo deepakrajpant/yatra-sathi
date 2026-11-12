@@ -1,5 +1,10 @@
 import React from 'react';
-import {BrowserRouter,Routes,Route,Navigate} from "react-router-dom";
+import {
+  HashRouter,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
 import Navbar from "./components/layout/Navbar"; import Footer from "./components/layout/Footer"; import MobileBottomNav from "./components/layout/MobileBottomNav"; import Toast from "./components/ui/Toast";
 import {useNotifications} from "./contexts/NotificationContext"; import {useAuth} from "./contexts/AuthContext";
 import Home from "./pages/public/Home"; import FindRide from "./pages/public/FindRide"; import OfferRide from "./pages/public/OfferRide"; import HowItWorks from "./pages/public/HowItWorks"; import Safety from "./pages/public/Safety"; import About from "./pages/public/About"; import Contact from "./pages/public/Contact";
