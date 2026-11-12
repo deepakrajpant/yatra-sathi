@@ -26,3 +26,4 @@ export default function App(){const {notices,remove}=useNotifications();return <
 <Route path="/legal/terms" element={<Terms/>}/><Route path="/legal/privacy" element={<Privacy/>}/><Route path="/legal/cancellation" element={<Cancellation/>}/><Route path="/legal/payment-policy" element={<PaymentPolicy/>}/>
 <Route path="*" element={<Navigate to="/" replace/>}/>
 </Routes></main><Footer/><MobileBottomNav/><div className="fixed right-4 top-20 z-50 w-[min(92vw,380px)] space-y-2">{notices.map(n=><Toast key={n.id} type={n.type} message={n.message} onClose={()=>remove(n.id)}/>)}</div></HashRouter>}
+
