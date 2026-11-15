@@ -1,1 +1,10 @@
-{"name":"sajilo-gk","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test tests/domain.test.js","start":"node scripts/serve.mjs","check":"node --check script.js && node --check modules/domain.js && node --check modules/store.js && node --check modules/student.js && node --check modules/admin.js"}}
+{
+  "name": "sajilo-gk",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules tests/run.mjs && node --experimental-vm-modules tests/flows.mjs",
+    "serve": "node tests/serve.mjs"
+  }
+}
