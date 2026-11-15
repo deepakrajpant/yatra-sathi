@@ -67,3 +67,9 @@ Remaining acceptance gates: real Auth/provider configuration, Rules emulator val
 Legacy scope-counter documents are retained for compatibility; new dashboard/subject reading and mastery values are computed from currently eligible content plus actual user records. This is accurate but may consume additional reads for users with long histories; monitor quotas before scaling.
 
 The index manifest keeps 179 composite indexes. Equality-only query combinations can use Firestore index merging; source: https://firebase.google.com/docs/firestore/query-data/index-overview#use_index_merging. Existing unrelated project indexes may consume additional quota. Review the live index inventory before deployment.
+
+## Version 3 owner/navigation verification
+
+The verified primary-owner email replaces manual Console role bootstrap for that account. Admin buttons, explicit routes, connection recovery, partial-summary errors and owner-only staff delegation are included. Run tests/auth-navigation.mjs along with the two existing suites. It exercises actual auth/access code with mocked Firebase reads and records results in tests/auth-navigation-results.json. These checks do not validate deployed Rules semantics or real-browser rendering.
+
+Verify the new role policy on staging before launch: the primary owner can read/write administrative data; an unverified matching email cannot; ordinary users cannot grant roles or read another user’s records; delegated admin/editor/support roles stay within scope; disabled or suspended staff lose access. Confirm the new navigation at 320px and on desktop. Confirm #/admin/setup remains accessible after an expected permission error.

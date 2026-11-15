@@ -25,25 +25,15 @@ Wait for indexes to finish building. If an unsupported combination of filters re
 
 Deployment is an explicit operator step; this ZIP does not alter your Firebase project by itself.
 
-## 3. First administrator
+## 3. Primary administrator
 
-1. Run the site locally and register your own account.
-2. Verify the email and sign in.
-3. Copy your UID from Firebase Authentication → Users.
-4. In Firestore Console, create `adminRoles/{YOUR_UID}` with:
+The verified Firebase account **deepakrajpant978@gmail.com** is the primary owner. Publish the current firebase/rules.txt first. Sign in with this exact account, verify the email and refresh the login. No manual adminRoles document is required for the primary owner.
 
-| Field | Type | Value |
-|---|---|---|
-| role | string | owner |
-| enabled | boolean | true |
-| assignedBy | string | console-bootstrap |
-| assignedAt | timestamp | current timestamp |
+The Admin button appears in the header, sidebar and mobile drawer. If reads are blocked, open #/admin/setup to copy the bundled Rules and check the connection. This page does not depend on loading appSettings.
 
-5. Reload the site. The Admin center link appears.
+Grant or revoke delegated admin/editor/support access from Admin → Students → View student → Staff permissions. Only the verified primary owner can write these protected role records; normal students and delegated staff cannot promote themselves. Suspending a delegated staff account also blocks its backend staff access.
 
-Only trusted Console/Admin SDK operations may write `adminRoles`. Rules deny all browser writes to that collection. Never grant `owner` to every user or use a profile `role` field for authorization.
-
-Optional roles: `admin`, `editor`, `support`. Editors manage learning content; support can review students/reports; admin/owner manage protected access and settings.
+Read UPDATE-FIRST.md for the complete update sequence.
 
 ## 4. Seed content
 

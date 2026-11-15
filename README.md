@@ -1,16 +1,16 @@
-# Sajilo GK — version 2
+# Sajilo GK — version 3
 
 Smart Loksewa Preparation Made Simple.
 
 This release implements the approved product design using Vanilla HTML/CSS/JavaScript and your supplied Firebase configuration. It has first-login examination/subject selection, deduplicated My Subjects, subject/chapter/topic/level navigation, structured multimedia materials, separate reading and mastery metrics, Saved collections and combined-filter revision.
 
-**Start with START-HERE.md.** No Firebase Rules/indexes have been deployed to your account by this ZIP. No live production acceptance pass is claimed.
+**Existing users: start with UPDATE-FIRST.md. New projects: START-HERE.md.** No Firebase Rules/indexes have been deployed to your account by this ZIP. No live production acceptance pass is claimed.
 
 ## Start here
 
 1. Unzip this directory.
 2. Configure Firebase using [SETUP.md](SETUP.md). Deploy Rules and indexes before using real student data.
-3. Provision your first administrator through Firebase Console. Creating a normal account never makes it an administrator.
+3. The verified deepakrajpant978@gmail.com account is the primary owner after the new Rules are published. Other accounts remain students unless staff access is explicitly granted by that owner.
 4. Serve over HTTP/HTTPS, not `file://`. With Node 20+ installed, run `node tests/serve.mjs` and open `http://127.0.0.1:4173`.
 5. Sign in, verify your email, then open `#/admin/import`. Click **Load included sample for preview**, inspect it, and commit it in **Add new** mode.
 6. Read [QA.md](QA.md) before public launch. This package has not been live acceptance-tested against your Firebase project.
@@ -43,7 +43,7 @@ Bounded recommendation and mixed-practice candidate pools trade perfect global o
 
 Offline support requires an initial successful online load of the application and the relevant modules/content. Cached notes/questions are readable; writes and final submission require reconnection. A running test preserves answers locally. Its timer continues while the tab is closed. Clients can alter their local clock, so the timer is not a security boundary.
 
-No background push or email reminder service is included. Reminders appear in the application. No student information is embedded in the source or sample data.
+No background push or email reminder service is included. Reminders appear in the application. No student information is embedded in the sample data. The designated primary admin email is explicitly configured in the access module and Rules.
 
 ## Files
 

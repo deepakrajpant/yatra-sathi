@@ -102,3 +102,7 @@ The bundled sample now uses flat records. Additional collection: materials. Mate
 subjects/{id}.examIds is the canonical multi-examination mapping. Private additions under users/{uid}: subjects, materialProgress, learningState/current and savedItems. The user profile stores selectedExamIds, pendingExamIds and onboardingComplete/onboardingStep. savedItems has separate favourite, revision and personalImportant flags. Material review schedule IDs use the material- prefix and entityType/entityId.
 
 Reading counts explicitly marked eligible material units of the current version. Mastery counts eligible current-version questions meeting the separate-day recall criterion; reading never awards mastery. Subject/chapter percentages aggregate counts, not rounded averages. Unattempted eligible questions remain in the mastery denominator.
+
+## Version 3 owner and staff access
+
+The primary owner is the verified Firebase Authentication email deepakrajpant978@gmail.com. Both UI permissions and server Rules check this identity. The primary owner does not require a role document. Delegated roles remain in adminRoles/{uid}; only the verified primary owner may create/update validated admin/editor/support records for other UIDs. Fields: role, enabled, assignedBy, assignedAt, createdAt, updatedAt. Disabling uses enabled=false; deleting role records from the frontend is denied. No client-editable users.role field is trusted.

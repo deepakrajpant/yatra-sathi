@@ -3,13 +3,14 @@ service cloud.firestore {
  match /databases/{database}/documents {
   function signed(){return request.auth != null;}
   function verified(){return signed() && request.auth.token.email_verified == true;}
+  function primaryAdmin(){return verified() && request.auth.token.email == 'deepakrajpant978@gmail.com';}
   function role(){return get(/databases/$(database)/documents/adminRoles/$(request.auth.uid)).data;}
-  function staff(){return verified() && exists(/databases/$(database)/documents/adminRoles/$(request.auth.uid)) && role().enabled == true;}
-  function editor(){return staff() && role().role in ['owner','admin','editor'];}
-  function manager(){return staff() && role().role in ['owner','admin'];}
-  function support(){return staff() && role().role in ['owner','admin','support'];}
+  function staff(){return primaryAdmin() || (verified() && exists(/databases/$(database)/documents/adminRoles/$(request.auth.uid)) && role().enabled == true && active());}
+  function editor(){return primaryAdmin() || (staff() && role().role in ['owner','admin','editor']);}
+  function manager(){return primaryAdmin() || (staff() && role().role in ['owner','admin']);}
+  function support(){return primaryAdmin() || (staff() && role().role in ['owner','admin','support']);}
   function owner(uid){return signed() && request.auth.uid == uid;}
-  function active(){return verified() && (!exists(/databases/$(database)/documents/users/$(request.auth.uid)/access/current) || get(/databases/$(database)/documents/users/$(request.auth.uid)/access/current).data.status == 'active');}
+  function active(){return primaryAdmin() || (verified() && (!exists(/databases/$(database)/documents/users/$(request.auth.uid)/access/current) || get(/databases/$(database)/documents/users/$(request.auth.uid)/access/current).data.status == 'active'));}
   function premium(){return active() && exists(/databases/$(database)/documents/users/$(request.auth.uid)/access/current) && get(/databases/$(database)/documents/users/$(request.auth.uid)/access/current).data.premiumUntil is timestamp && get(/databases/$(database)/documents/users/$(request.auth.uid)/access/current).data.premiumUntil > request.time;}
   function entitled(d){return !('access' in d) || d.access == 'free' || premium() || (exists(/databases/$(database)/documents/appSettings/policy) && get(/databases/$(database)/documents/appSettings/policy).data.premiumEnabled == false);}
   function published(d){return active() && d.status == 'published' && entitled(d);}
@@ -21,8 +22,12 @@ service cloud.firestore {
   function question(d){return editorial(d) && nonempty(d.questionText,12000) && d.options is list && d.options.size() >= 2 && d.options.size() <= 6 && d.options[0] is string && d.options[1] is string && d.level in [1,2,3] && d.importance in ['low','medium','high'] && d.verification in ['official','verified_pyq','predicted'] && d.tags is list && d.tags.size() <= 30 && d.access in ['free','premium'] && d.mcq is bool && d.randomKey is number && d.randomKey >= 0 && d.randomKey <= 1 && d.solutionVersion is int && d.examId is string && d.subjectId is string && d.chapterId is string && d.topicId is string && !d.keys().hasAny(['correctOption','explanationHtml','shortAnswer','memoryTrick']);}
   function validSolution(qid,d){return d.correctOption is int && d.correctOption >= 0 && d.correctOption < getAfter(/databases/$(database)/documents/questions/$(qid)).data.options.size() && text(d.explanationHtml,200000) && text(d.memoryTrick,10000) && text(d.shortAnswer,12000);}
   function ownWrite(uid){return owner(uid) && active() && request.resource.data.updatedAt == request.time;}
-  function registrationOpen(){return !exists(/databases/$(database)/documents/appSettings/policy) || get(/databases/$(database)/documents/appSettings/policy).data.registrationOpen == true;}
-  match /adminRoles/{uid} {allow get: if owner(uid) || manager(); allow list: if manager(); allow write: if false;}
+  function registrationOpen(){return primaryAdmin() || !exists(/databases/$(database)/documents/appSettings/policy) || get(/databases/$(database)/documents/appSettings/policy).data.registrationOpen == true;}
+  match /adminRoles/{uid} {
+   allow get: if owner(uid) || manager(); allow list: if manager();
+   allow create,update: if primaryAdmin() && uid != request.auth.uid && request.resource.data.keys().hasOnly(['role','enabled','assignedBy','assignedAt','createdAt','updatedAt']) && request.resource.data.role in ['admin','editor','support'] && request.resource.data.enabled is bool && request.resource.data.assignedBy == request.auth.uid && request.resource.data.assignedAt == request.time && request.resource.data.updatedAt == request.time;
+   allow delete: if false;
+  }
   match /users/{uid} {
    allow read: if owner(uid) || support();
    allow create: if owner(uid) && registrationOpen() && request.resource.data.keys().hasOnly(['displayName','email','photoURL','targetExamId','dailyQuestionGoal','dailyMinutesGoal','examDate','preferences','createdAt','updatedAt','lastActiveDate','lastActiveAt','selectedExamIds','pendingExamIds','onboardingComplete','onboardingStep']) && request.resource.data.email == request.auth.token.email && nonempty(request.resource.data.displayName,100) && request.resource.data.dailyQuestionGoal is number && request.resource.data.dailyQuestionGoal >= 1 && request.resource.data.dailyQuestionGoal <= 500 && request.resource.data.updatedAt == request.time;

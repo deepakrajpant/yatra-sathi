@@ -1,4 +1,4 @@
-# Sajilo GK v2 — quick start
+# Sajilo GK v3 — quick start
 
 ## What is included
 
@@ -21,12 +21,15 @@
 1. Open SETUP.md and enable the Auth providers in Firebase.
 2. Publish firebase/rules.txt and deploy firebase/indexes.json before using real accounts. The bundled firebase.json points the Firebase CLI at these files.
 3. Run `node tests/serve.mjs` from this folder. Open http://127.0.0.1:4173. Do not open index.html using file://, because browser ES modules and Firebase need HTTP/HTTPS.
-4. Register, verify email and provision the first owner role in Firebase Console using the exact steps in SETUP.md. Navigate directly to #/admin to import seed content if onboarding has no published exams yet.
+4. Register or sign in as deepakrajpant978@gmail.com and verify the email. With the new Rules published, this exact account is automatically the primary owner. No manual owner-role document is required. Navigate directly to #/admin to import seed content if onboarding has no published exams yet.
 5. In Admin → Import/export, load the sample for preview and commit. The sample contains 3 examinations, one shared subject, 3 topics, 9 level materials and 18 predicted science questions. It contains no student activity.
 6. Return to #/onboarding/exams, select examinations, select subjects and open the dashboard.
 7. For GitHub Pages, upload this folder’s contents to the publishing root, enable Pages, add your github.io domain to Firebase Auth and wait for indexes.
 
 ## Existing project upgrades
+
+Read UPDATE-FIRST.md before updating an existing site. Publish the new Rules, replace the complete source folder and activate the Service Worker update before assessing admin access.
+
 
 Deploy the new Rules and indexes first. Existing profiles are guided through the new subject setup. Existing study/test records remain intact. To add the new sample to an existing database, validate using Add or update mode and deliberately review the planned changes. Add New correctly rejects existing IDs.
 
